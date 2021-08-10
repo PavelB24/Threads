@@ -17,28 +17,30 @@ public class Main {
             }
         });
         tr1.start();
-        testOneThread();
+
         try {
             testTwoThreads(tr1, arr1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        testOneThread();
     }
 
     private static void testTwoThreads(Thread tr1, float[] arr1) throws InterruptedException {
         float[] arr2 = new float[HALF];
         long a = System.currentTimeMillis();
+        tr1.join();
         System.arraycopy(arr, HALF, arr2, 0, HALF);
 
         for (int i = 0; i < arr2.length; i++) {
             arr[i] = (float) (arr[i] * Math.sin(0.2f + (i + HALF) / 5) * Math.cos(0.2f + (i + HALF) / 5) * Math.cos(0.4f + i + (HALF) / 2));
         }
-        tr1.join();
+
         System.out.println();
         System.arraycopy(arr1, 0, arr, 0, arr1.length);
         System.arraycopy(arr2, 0, arr, HALF, arr1.length);
 
-        System.out.println("Метод с двумя потоками был в работе " +(System.currentTimeMillis() - a));
+        System.out.println("Метод с двумя потоками был в работе " + (System.currentTimeMillis() - a));
     }
 
 
@@ -48,6 +50,6 @@ public class Main {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (float) (arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
         }
-        System.out.println("Метод с одним потоком был в работе " +(System.currentTimeMillis() - a));
+        System.out.println("Метод с одним потоком был в работе " + (System.currentTimeMillis() - a));
     }
 }
