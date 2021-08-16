@@ -8,15 +8,6 @@ public class Main {
     static float[] arr = new float[SIZE];
 
     public static void main(String[] args) {
-        float[] arr1 = new float[HALF];
-        Thread tr1 = new Thread(() -> {
-            Arrays.fill(arr, 1);
-            System.arraycopy(arr, 0, arr1, 0, HALF);
-            for (int i = 0; i < arr1.length; i++) {
-                arr1[i] = (float) (arr1[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
-            }
-        });
-        tr1.start();
 
         try {
             testTwoThreads();
@@ -32,7 +23,6 @@ public class Main {
         Arrays.fill(arr, 1);
         long a = System.currentTimeMillis();
         Thread tr1 = new Thread(() -> {
-
             System.arraycopy(arr, 0, arr1, 0, HALF);
             for (int i = 0; i < arr1.length; i++) {
                 arr1[i] = (float) (arr1[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
@@ -40,11 +30,9 @@ public class Main {
         });
         tr1.start();
         System.arraycopy(arr, HALF, arr2, 0, HALF);
-
         for (int i = 0; i < arr2.length; i++) {
-            arr[i] = (float) (arr[i] * Math.sin(0.2f + (i + HALF) / 5) * Math.cos(0.2f + (i + HALF) / 5) * Math.cos(0.4f + i + (HALF) / 2));
+            arr2[i] = (float) (arr2[i] * Math.sin(0.2f + (i + HALF) / 5) * Math.cos(0.2f + (i + HALF) / 5) * Math.cos(0.4f + (i + HALF) / 2));
         }
-
         tr1.join();
         System.arraycopy(arr1, 0, arr, 0, arr1.length);
         System.arraycopy(arr2, 0, arr, HALF, arr1.length);
